@@ -1,6 +1,6 @@
 # GEO1000 - Assignment 4
-# Authors:
-# Studentnumbers:
+# Authors: Michiel de Jong
+# Studentnumbers: 4376978
 
 import math
 
@@ -21,7 +21,8 @@ class Point(object):
     def __str__(self):
         """Returns WKT String "POINT (x y)".
         """
-        pass
+        wkt = "POINT (%s,%s)"%(self.x, self.y)
+        return wkt
 
     def intersects(self, other):
         """Checks whether other shape has any interaction with
@@ -31,12 +32,30 @@ class Point(object):
         
         returns - True / False
         """
-        pass
+        if isinstance(other, Point):
+            if self.x == other.x and self.y == other.y:
+                return True
+            else:
+                return False
+        elif isinstance(other, Circle):
+            if self.distance(other.center) <= other.radius:
+                print('yes')
+                return True
+            else:
+                return False 
+        elif isinstance(other, Rectangle):
+            if self.x >= other.ll.x and self.x <= other.ur.x and self.y >= other.ll.y and self.y <= other.ur.y:
+                print('yes')
+                return True
+            else:
+                return False 
 
     def distance(self, other):
         """Returns cartesian distance between self and other Point
         """
-        pass
+        assert isinstance(other, Point)
+        dist = math.sqrt(abs(self.x - other.x)**2 + abs(self.y - other.y)**2)
+        return dist
 
 
 class Circle(object):
@@ -73,7 +92,23 @@ class Circle(object):
         
         Returns - True / False
         """
-        pass
+        if isinstance(other, Point):
+            if other.intersects(self) == True:
+                return True
+            else:
+                return False
+        elif isinstance(other, Circle):
+            if self.distance(other.center) <= other.radius:
+                print('yes')
+                return True
+            else:
+                return False 
+        elif isinstance(other, Rectangle):
+            if self.x >= other.ll.x and self.x <= other.ur.x and self.y >= other.ll.y and self.y <= other.ur.y:
+                print('yes')
+                return True
+            else:
+                return False 
 
 
 class Rectangle(object):
@@ -86,11 +121,14 @@ class Rectangle(object):
         assert isinstance(pt_ur, Point)
         self.ll = pt_ll
         self.ur = pt_ur
+        self.ul = Point(self.ll.x, (self.ll.y + self.height()))
+        self.lr = Point(self.ur.x, (self.ur.y - self.height()))
 
     def __str__(self):
         """Returns WKT String "POLYGON ((x0 y0, x1 y1, ..., x0 y0))"
         """
-        pass
+        wkt  = "POLYGON ((%s %s,%s %s,%s %s,%s %s,%s %s))"%(self.ll.x, self.ll.y,self.lr.x,self.lr.y,self.ur.x,self.ur.y,self.ul.x,self.ul.y,self.ll.x,self.ll.y)
+        return wkt
 
     def intersects(self, other):
         """Checks whether other shape has any interaction with
@@ -100,21 +138,24 @@ class Rectangle(object):
         
         Returns - True / False
         """
-        pass
+        
+        
 
     def width(self):
         """Returns the width of the Rectangle.
         
         Returns - float
         """
-        pass
+        wide = self.ur.x - self.ll.x
+        return wide
 
     def height(self):
         """Returns the height of the Rectangle.
         
         Returns - float
         """
-        pass
+        high = self.ur.y - self.ll.y
+        return high
 
 
 def _test():
@@ -127,11 +168,14 @@ def _test():
     assert pt1.intersects(pt0)
     assert not pt0.intersects(pt2)
     assert not pt2.intersects(pt0)
-
+    
     c = Circle(Point(-1, -1), 1)
     r = Rectangle(Point(0,0), Point(10,10))
+    #print(r.__str__())
+    #print(c.__str__())
     assert not c.intersects(r)
-
+    assert pt0.intersects(c)
+    assert pt0.intersects(r)
     # Extend this method to be sure that you test all intersects methods!
     # Read Section 16.5 of the book if you have never seen the assert statement
 
