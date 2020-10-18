@@ -98,7 +98,7 @@ class Circle(object):
             else:
                 return False
         elif isinstance(other, Circle):
-            if self.distance(other.center) <= other.radius:
+            if self.center.distance(other.center) <= (self.radius + other.radius):
                 print('yes')
                 return True
             else:
