@@ -104,7 +104,9 @@ class Circle(object):
             else:
                 return False 
         elif isinstance(other, Rectangle):
-            if self.x >= other.ll.x and self.x <= other.ur.x and self.y >= other.ll.y and self.y <= other.ur.y:
+            nearest_x = max(other.ll.x, min(self.center.x, other.ll.x + other.width()))
+            nearest_y = max(other.ll.y, min(self.center.y, other.ll.y + other.height()))
+            if (nearest_x**2 + nearest_y**2) <= self.radius**2:
                 print('yes')
                 return True
             else:
@@ -138,6 +140,23 @@ class Rectangle(object):
         
         Returns - True / False
         """
+        if isinstance(other, Point):
+            if other.intersects(self) == True:
+                return True
+            else:
+                return False
+        elif isinstance(other, Circle):
+            if other.intersects(self) == True:
+                return True
+            else:
+                return False 
+        elif isinstance(other, Rectangle):
+            if self.ul.x >= other.lr.x or other.ul.x >= self.lr.x:
+                return False
+            elif self.ul.y <= other.lr.y or other.ul.y <= self.lr.y:
+                return False
+            else:
+                return True 
         
         
 
@@ -171,11 +190,14 @@ def _test():
     
     c = Circle(Point(-1, -1), 1)
     r = Rectangle(Point(0,0), Point(10,10))
+    r2 = Rectangle(Point(0,0), Point(10,10))
+    assert r.intersects(r2)
     #print(r.__str__())
     #print(c.__str__())
     assert not c.intersects(r)
     assert pt0.intersects(c)
     assert pt0.intersects(r)
+
     # Extend this method to be sure that you test all intersects methods!
     # Read Section 16.5 of the book if you have never seen the assert statement
 
