@@ -39,13 +39,11 @@ class Point(object):
                 return False
         elif isinstance(other, Circle):
             if self.distance(other.center) <= other.radius:
-                print('yes')
                 return True
             else:
                 return False 
         elif isinstance(other, Rectangle):
             if self.x >= other.ll.x and self.x <= other.ur.x and self.y >= other.ll.y and self.y <= other.ur.y:
-                print('yes')
                 return True
             else:
                 return False 
@@ -99,7 +97,6 @@ class Circle(object):
                 return False
         elif isinstance(other, Circle):
             if self.center.distance(other.center) <= (self.radius + other.radius):
-                print('yes')
                 return True
             else:
                 return False 
@@ -107,7 +104,6 @@ class Circle(object):
             nearest_x = max(other.ll.x, min(self.center.x, other.ll.x + other.width()))
             nearest_y = max(other.ll.y, min(self.center.y, other.ll.y + other.height()))
             if (nearest_x**2 + nearest_y**2) <= self.radius**2:
-                print('yes')
                 return True
             else:
                 return False 

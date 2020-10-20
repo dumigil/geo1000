@@ -16,7 +16,23 @@ def read(file_nm, no_strips):
     
     Returns - None or a StripStructure instance
     """
-    pass
+    uncomlines = []
+    with open(file_nm, "r") as fh:
+        ln = fh.readlines()
+        for l in ln:
+            l = l.rstrip()
+            if l[0] != "#":
+                l_list = l.split()
+                l_map = map(float, l_list)
+                uncomlines.append(list(l_map))
+        if len(uncomlines[0]) == 4:
+            bbox = Rectangle(Point(uncomlines[0][0],uncomlines[0][1]),Point(uncomlines[0][2],uncomlines[0][3]))
+            ss = StripStructure(bbox, no_strips)
+            for pt in uncomlines[1:]:
+                pt = Point(pt[0],pt[1])
+                ss.append_point(pt)
+            print(bbox)
+            print(ss.print_strip_statistics())
 
 
 def dump(structure, strip_file_nm="strips.wkt", point_file_nm="points.wkt"):
@@ -30,3 +46,8 @@ def dump(structure, strip_file_nm="strips.wkt", point_file_nm="points.wkt"):
     with open(point_file_nm, "w") as fh:
         fh.write(structure.dump_points())
 
+def test():
+    read("points2.txt",5)
+
+if __name__ == "__main__":
+    test()

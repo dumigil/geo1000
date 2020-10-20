@@ -100,10 +100,8 @@ class StripStructure(object):
         Returns - None
         """
         assert isinstance(pt, Point)
-        for strip in self.strips:
-            if strip.find_overlapping_strips(pt):
-                strip.points.append(pt)
-
+        lst = self.find_overlapping_strips(pt)
+        
 
 
 
