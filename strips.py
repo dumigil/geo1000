@@ -10,8 +10,13 @@ class Strip(object):
         """Constructor. Inits a Strip instance with a Rectangle describing 
         its shape and an empty points list.
         """
+        assert isinstance(rectangle, Rectangle)
         self.rect = rectangle
+        self.width = rectangle.width()
         self.points = []
+    
+    def __str__(self):
+        return self.rect.__str__()
 
 
 class StripStructure(object):
@@ -20,11 +25,24 @@ class StripStructure(object):
         number of Strip instances and makes sure that the domain is 
         correctly divided over the strips.
         """
+        assert isinstance(extent, Rectangle)
         self.strips = []
-        # Extend this method,
-        # so that the right number of strip objects (with the correct extent)
-        # are appended to the strips list
-        pass
+        self.query_strips = []
+        width = extent.width()/no_strips
+        x_ll = extent.ll.x
+        y_ll = extent.ll.y
+        x_ur = width 
+        y_ur = extent.ur.y
+        while no_strips > 0:
+            shape = Strip(Rectangle((Point(x_ll,y_ll)), (Point(x_ur,y_ur))))
+            self.strips.append(shape)
+            x_ll = x_ll + width
+            x_ur = x_ur + width
+            no_strips = no_strips - 1 
+            
+        for i in self.strips:
+            print(i)
+
 
     def find_overlapping_strips(self, shape):
         """Returns a list of strip objects for which their rectangle intersects 
@@ -32,7 +50,12 @@ class StripStructure(object):
         
         Returns - list of Strips
         """
-        pass
+        for i in self.strips :
+            if i.rect.intersects(shape):
+                self.query_strips.append(i)
+            else:
+                return False
+        return self.query_strips
 
     def query(self, shape):
         """Returns a list of points that overlaps the given shape.
@@ -102,3 +125,12 @@ class StripStructure(object):
                 lines += t
         return lines
 
+
+
+def test():
+    bbox = Rectangle(Point(0,0),Point(10,10))
+    StripStructure(bbox,4)
+    qshape = Rectangle(Point(5,5),Point(15,15))
+
+if __name__ == "__main__":
+    test()
