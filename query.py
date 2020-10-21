@@ -17,7 +17,31 @@ def parse(geom_str):
     
     Returns - Point, Circle, or Rectangle
     """
-    pass
+    geom_str = geom_str.split(" ")
+    if geom_str[0] == 'p':
+        geom_str.pop(0)
+        p_list = []
+        for l in geom_str:
+            l = float(l)
+            p_list.append(l)
+        pt = Point(p_list[0],p_list[1])
+        return pt
+    elif geom_str[0] == 'c':
+        geom_str.pop(0)
+        c_list = []
+        for l in geom_str:
+            l = float(l)
+            c_list.append(l)
+        crcl = Circle(Point(c_list[0],c_list[1]),c_list[2])
+        return crcl
+    elif geom_str[0] == 'r':
+        geom_str.pop(0)
+        r_list = []
+        for l in geom_str:
+            l = float(l)
+            r_list.append(l)
+        rctgl = Rectangle(Point(r_list[0],r_list[1]),Point(r_list[2],r_list[3]))
+        return rctgl
 
 
 def print_statistics(result):
@@ -29,7 +53,19 @@ def print_statistics(result):
     
     Returns - None
     """
-    pass
+    if len(result) > 0:
+        print(str(len(result)) + " point(s)")
+        point_left = result[0]
+        point_right = result[0]
+        for point in result: 
+            if point.x < point_left.x or (point.x == point_left.x and point.y < point_left.y):
+                point_left = point
+            if point.y > point_right.y or (point.x == point_right.x and point.y > point_right.y):
+                point_right = point
+        print("The leftmost:{} id {}".format(point_left, id(point_left)))
+        print("The rightmost:{} id {}".format(point_right, id(point_right)))
+    else:
+        print("There are no overlapping points")
 
 
 def print_help():
@@ -82,6 +118,10 @@ def main():
             else:
                 print_statistics(structure.query(parse(in_str)))
 
+def test():
+    instr = "r 0 0 5 5"
+    parse(instr)
 
 if __name__ == "__main__":
     main()
+    #test()

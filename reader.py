@@ -31,8 +31,7 @@ def read(file_nm, no_strips):
             for pt in uncomlines[1:]:
                 pt = Point(pt[0],pt[1])
                 ss.append_point(pt)
-            print(bbox)
-            print(ss.print_strip_statistics())
+            return ss
 
 
 def dump(structure, strip_file_nm="strips.wkt", point_file_nm="points.wkt"):
@@ -46,8 +45,3 @@ def dump(structure, strip_file_nm="strips.wkt", point_file_nm="points.wkt"):
     with open(point_file_nm, "w") as fh:
         fh.write(structure.dump_points())
 
-def test():
-    read("points2.txt",5)
-
-if __name__ == "__main__":
-    test()

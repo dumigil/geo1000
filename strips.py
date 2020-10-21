@@ -14,11 +14,9 @@ class Strip(object):
         self.rect = rectangle
         self.width = rectangle.width()
         self.points = []
-        self.ptll = Point(0, 0)
-        self.ptrr = Point(0, 0)
-        for pt in self.points:
-            self.ptll = Point(min(pt.x),min(pt.y))
-            self.ptrr = Point(max(pt.x),max(pt.y))
+        self.ptll = self.rect.ll
+        self.ptrr = self.rect.ur
+
     
     def __str__(self):
         return self.rect.__str__()
@@ -40,7 +38,7 @@ class StripStructure(object):
         width = extent.width()/no_strips
         x_ll = extent.ll.x
         y_ll = extent.ll.y
-        x_ur = width 
+        x_ur = x_ll + width 
         y_ur = extent.ur.y
         while no_strips > 0:
             shape = Strip(Rectangle((Point(x_ll,y_ll)), (Point(x_ur,y_ur))))
@@ -48,9 +46,7 @@ class StripStructure(object):
             x_ll = x_ll + width
             x_ur = x_ur + width
             no_strips = no_strips - 1 
-            
-        """for i in self.strips:
-            print(i)"""
+
 
 
     def find_overlapping_strips(self, shape):
@@ -82,8 +78,6 @@ class StripStructure(object):
             for pts in strips.points:
                 if pts.intersects(shape):
                     points_list.append(pts)
-                print(pts)
-            print(strips.points) 
         return points_list               
 
                 
@@ -100,6 +94,7 @@ class StripStructure(object):
         
         Returns - None
         """
+
         assert isinstance(pt, Point)
         lst = self.find_overlapping_strips(pt)
         if len(lst) == 1:
@@ -107,6 +102,9 @@ class StripStructure(object):
                 i.points.append(pt)
         elif len(lst) > 1:
             lst[0].points.append(pt)
+
+        """strip = self.find_overlapping_strips(pt)[0]
+        strip.points.append(pt)"""
         
 
 

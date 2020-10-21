@@ -21,7 +21,7 @@ class Point(object):
     def __str__(self):
         """Returns WKT String "POINT (x y)".
         """
-        wkt = "POINT (%s,%s)"%(self.x, self.y)
+        wkt = "POINT (%s %s)"%(self.x, self.y)
         return wkt
 
     def intersects(self, other):
@@ -105,6 +105,8 @@ class Circle(object):
             nearest_y = max(other.ll.y, min(self.center.y, other.ll.y + other.height()))
             if (nearest_x**2 + nearest_y**2) <= self.radius**2:
                 return True
+            elif (self.center.x + self.radius) <= other.ur.x and (self.center.y + self.radius) <= other.ur.y and (self.center.x - self.radius) >= other.ll.x and (self.center.y - self.radius) >= other.ll.y:
+                return True
             else:
                 return False 
 
@@ -161,7 +163,7 @@ class Rectangle(object):
         
         Returns - float
         """
-        wide = self.ur.x - self.ll.x
+        wide = abs(self.ur.x - self.ll.x)
         return wide
 
     def height(self):
