@@ -100,15 +100,13 @@ class Circle(object):
                 return True
             else:
                 return False 
-        elif isinstance(other, Rectangle):
-            nearest_x = max(other.ll.x, min(self.center.x, other.ll.x + other.width()))
-            nearest_y = max(other.ll.y, min(self.center.y, other.ll.y + other.height()))
-            if (nearest_x**2 + nearest_y**2) <= self.radius**2:
-                return True
-            elif (self.center.x + self.radius) <= other.ur.x and (self.center.y + self.radius) <= other.ur.y and (self.center.x - self.radius) >= other.ll.x and (self.center.y - self.radius) >= other.ll.y:
+        elif isinstance(other, Rectangle):       
+            if (self.center.x + self.radius) >= other.ll.x and (self.center.x - self.radius) <= other.ur.x and self.center.y >= other.ll.y and self.center.y <= other.ur.y:
+                return True 
+            elif self.center.x >= other.ll.x and self.center.x <= other.ur.x and (self.center.y + self.radius) >= other.ll.y and (self.center.y - self.radius) <= other.ur.y:
                 return True
             else:
-                return False 
+                return False
 
 
 class Rectangle(object):
@@ -163,7 +161,7 @@ class Rectangle(object):
         
         Returns - float
         """
-        wide = abs(self.ur.x - self.ll.x)
+        wide = (self.ur.x - self.ll.x)
         return wide
 
     def height(self):

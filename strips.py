@@ -12,18 +12,9 @@ class Strip(object):
         """
         assert isinstance(rectangle, Rectangle)
         self.rect = rectangle
-        self.width = rectangle.width()
         self.points = []
         self.ptll = self.rect.ll
         self.ptrr = self.rect.ur
-
-    
-    def __str__(self):
-        return self.rect.__str__()
-
-
-        
-
 
 class StripStructure(object):
     def __init__(self, extent, no_strips):

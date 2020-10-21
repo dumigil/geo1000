@@ -62,8 +62,8 @@ def print_statistics(result):
                 point_left = point
             if point.y > point_right.y or (point.x == point_right.x and point.y > point_right.y):
                 point_right = point
-        print("The leftmost:{} id {}".format(point_left, id(point_left)))
-        print("The rightmost:{} id {}".format(point_right, id(point_right)))
+        print("The leftmost: {} id {}".format(point_left, id(point_left)))
+        print("The rightmost: {} id {}".format(point_right, id(point_right)))
     else:
         print("There are no overlapping points")
 
