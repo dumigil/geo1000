@@ -1,6 +1,6 @@
 # GEO1000 - Assignment 4
-# Authors:
-# Studentnumbers:
+# Authors: Michiel de Jong
+# Studentnumbers: 4376978
 
 from reader import read
 from geometry import Rectangle, Circle, Point
