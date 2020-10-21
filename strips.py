@@ -59,6 +59,7 @@ class StripStructure(object):
         
         Returns - list of Strips
         """
+        self.query_strips = []
         for i in self.strips :
             if i.rect.intersects(shape):
                 self.query_strips.append(i)
@@ -101,6 +102,11 @@ class StripStructure(object):
         """
         assert isinstance(pt, Point)
         lst = self.find_overlapping_strips(pt)
+        if len(lst) == 1:
+            for i in lst:
+                i.points.append(pt)
+        elif len(lst) > 1:
+            lst[0].points.append(pt)
         
 
 
