@@ -53,6 +53,11 @@ def print_statistics(result):
     
     Returns - None
     """
+    header = """
++--------------+
++ Result       +
++--------------+"""
+    print(header)
     if len(result) > 0:
         print(str(len(result)) + " point(s)")
         point_left = result[0]
@@ -118,10 +123,6 @@ def main():
             else:
                 print_statistics(structure.query(parse(in_str)))
 
-def test():
-    instr = "r 0 0 5 5"
-    parse(instr)
-
 if __name__ == "__main__":
     main()
-    #test()
+

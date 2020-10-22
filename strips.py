@@ -94,8 +94,6 @@ class StripStructure(object):
         elif len(lst) > 1:
             lst[0].points.append(pt)
 
-        """strip = self.find_overlapping_strips(pt)[0]
-        strip.points.append(pt)"""
         
 
 
@@ -144,15 +142,3 @@ class StripStructure(object):
                 lines += t
         return lines
 
-
-
-def test():
-    bbox = Rectangle(Point(0,0),Point(10,10))
-    ss = StripStructure(bbox,5)
-    qshape = Rectangle(Point(5,5),Point(15,15))
-    ss.query(qshape)
-    ss.print_strip_statistics()
-    
-
-if __name__ == "__main__":
-    test()
